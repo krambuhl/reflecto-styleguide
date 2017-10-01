@@ -31,12 +31,22 @@ const getConfig = ({ fonts, colors }) => {
   }
 }
 
-module.exports.css = (config) => {
-  const { fonts, colors } = getConfig(config)
-  return css
+const replaceTokens = (str, { fonts, colors }) => {
+  Object.keys(fonts).forEach((key) => {
+    const regex = new RegExp(`getFont\\(${key}\\)`, 'g')
+    str = str.replace(regex, fonts[key])
+  })
+
+  Object.keys(colors).forEach((key) => {
+    const regex = new RegExp(`getColor\\(${key}\\)`, 'g')
+    str = str.replace(regex, colors[key])
+  })
+
+  return str
 }
 
-module.exports.js = (config) => {
-  const { fonts, colors } = getConfig(config)
-  return js
-}
+module.exports.css = (config) =>
+  replaceTokens(css.toString(), getConfig(config))
+
+module.exports.js = (config) =>
+  replaceTokens(js.toString(), getConfig(config))
