@@ -6,15 +6,18 @@
 export default {
   name: 'padding',
   computed: {
-    variantClass() {
-      return `padding--${variant}`
+    variantClass () {
+      return `padding--${this.variant}`
     }
   },
   props: {
-    variant: { type: String, default: 'normal' }
+    variant: { type: String, default: 'medium' }
   }
-};
+}
 </script>
 
 <style>
+.padding--small { padding: 0.5em; }
+.padding--medium { padding: 1em; }
+.padding--large { padding: 2em; }
 </style>

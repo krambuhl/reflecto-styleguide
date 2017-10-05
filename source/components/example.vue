@@ -4,6 +4,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Demo from '@components/demo'
+
 const { getExample, getReadme } = global.__ElementArchive__
 
 export default {
@@ -15,46 +18,32 @@ export default {
     exampleProps () {
       return this.example.component.props
     },
-    rawReadme () {
-      return getReadme(this.type, this.name)
-    },
-    readmeKeys () {
-      return this.rawReadme.match(/{{\s*[\w.]+\s*}}/g).map((x) => x.match(/[\w.]+/)[0])
-    },
     readme () {
-      const parts = this.rawReadme.split(/{{\s*[\w.]+\s*}}/g)
-
-      return parts.reduce((sum, part, i) => {
-        const key = this.readmeKeys[i]
-        sum += part
-
-        if (key) {
-          const match = key.match(/props\./)
-          if (match) {
-            const prop = this.exampleProps[key.substr(match[0].length)] || ''
-            sum += `<div data-var="${key}">${prop}</div>`
-          } else if (key === 'example.demo') {
-            sum += `<iframe class="example-demo" src="demo.html?type=${this.type}&name=${this.name}&id=${this.id}"></iframe>`
-          } else {
-            sum += `<div data-var="${key}">${key}</div>`
-          }
-        }
-        return sum
-      }, '')
-    }
-  },
-  methods: {
-    renderProps () {
-      // const props = Object.keys(this.props)
-      console.log(this.readmeKeys.filter((key) => key.match(/props\./)))
+      return getReadme(this.type, this.name)
     }
   },
   mounted () {
-    this.renderProps()
+    this.renderComponents()
+  },
+  methods: {
+    renderComponents () {
+      const data = Object.assign({}, {
+        type: this.type,
+        name: this.name,
+        id: this.id
+      })
+
+      console.log(Demo, data)
+
+      this.demo = new Vue({
+        el: '[data-var="example.demo"]',
+        render: (h) => h(Demo, { props: data })
+      })
+    }
   },
   watch: {
     '$route' (to, from) {
-      this.renderProps()
+      this.renderComponents()
     }
   },
   props: ['type', 'name', 'id']
@@ -62,9 +51,4 @@ export default {
 </script>
 
 <style>
-  .example-demo {
-    border: 1px solid black;
-    width: 100%;
-    min-height: 300px;
-  }
 </style>

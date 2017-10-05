@@ -2,9 +2,11 @@
   <div id="app" class="page-wrapper">
     <mast-head class="page-wrapper_mast"></mast-head>
     <div id="content" class="page-wrapper_content">
-      <transition name="fade">
-        <slot></slot>
-      </transition>
+      <padding variant="large">
+        <transition name="fade">
+          <slot></slot>
+        </transition>
+      </padding>
     </div>
   </div>
 </template>
@@ -40,8 +42,8 @@
 </style>
 
 <script>
-  import Padding from '@tags/padding';
-  import MastHead from '@components/mast-head';
+  import Padding from '@tags/padding'
+  import MastHead from '@components/mast-head'
 
   export default {
     components: {
