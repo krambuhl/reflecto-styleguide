@@ -1,16 +1,12 @@
 <template>
+  <div class="mast-head">mast head</div>
 </template>
 
 <script>
 export default {
-  name: 'mast-head',
-  data () {
-    return {
-
-    };
-  }
+  name: 'mast-head'
 };
 </script>
 
-<style lang="css" scoped>
+<style>
 </style>

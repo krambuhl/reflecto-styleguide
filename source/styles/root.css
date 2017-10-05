@@ -1,0 +1,17 @@
+@import "~reset-css/reset.css";
+
+html,
+body {
+  font-family: sans-serif;
+}
+
+body {
+  line-height: 1.5em;
+}
+
+[data-var] {
+  display: inline-block;
+  font-family: monospace;
+  border: 1px solid #eee;
+  background-color: #ddd;
+}
