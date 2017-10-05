@@ -3,16 +3,32 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "webpack --config ./webpack.config.js --progress",
+    "dev": "webpack --config ./webpack.config.js --watch"
+  },
   "dependencies": {
-    "query-string": "^5.0.0"
+    "query-string": "^5.0.0",
+    "reset-css": "^2.2.1",
+    "vue-router": "^2.7.0"
   },
   "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.7",
     "eslint": "^4.7.2",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mkdirp": "^0.5.1"
+    "eslint-plugin-vue": "^2.1.0",
+    "extract-text-webpack-plugin": "^3.0.1",
+    "mkdirp": "^0.5.1",
+    "vue": "^2.4.4",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dashboard": "^1.0.0-5"
   }
 }
