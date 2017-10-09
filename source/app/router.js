@@ -6,21 +6,18 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   routes: [{
+    name: 'example',
     path: '*',
-    component: require('@components/example').default,
-    props: (route) => {
-      const { type, name, id } = route.query
-      return { type, name, id }
-    }
+    component: require('@components/example').default
   }],
   linkActiveClass: 'is-active-route',
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) return savedPosition
-    else return { x: 0, y: 0 }
+    // else return { x: 0, y: 0 }
   }
 })
 
-router.afterEach((to, routeFrom) => {
+router.afterEach(function (to, routeFrom) {
   const toMeta = to.meta
 
   if (toMeta.pageTitle) {

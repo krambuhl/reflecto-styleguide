@@ -1,5 +1,15 @@
 /* Headings */
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.4em;
+  font-weight: 700;
+}
+
 h1 { font-size: 2.4em; }
 h2 { font-size: 2.0em; }
 h3 { font-size: 1.7em; }

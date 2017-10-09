@@ -1,12 +1,10 @@
 <template>
   <div id="app" class="page-wrapper">
-    <mast-head class="page-wrapper_mast"></mast-head>
-    <div id="content" class="page-wrapper_content">
-      <padding variant="large">
-        <transition name="fade">
-          <slot></slot>
-        </transition>
-      </padding>
+    <!-- <mast-head class="page-wrapper_mast"></mast-head> -->
+    <div id="content" class="page-wrapper__content">
+      <transition name="fade">
+        <slot></slot>
+      </transition>
     </div>
   </div>
 </template>
@@ -16,14 +14,9 @@
     min-height: 100vh;
   }
 
-  .page-wrapper_mast {}
-  .page-wrapper_content {
-    padding-top: 3em;
-    padding-bottom: 2em;
-    text-align: center;
-
-    @media (--small) { padding-top: 4em; }
-    @media (--medium) { padding-top: 5em; }
+  .page-wrapper__content {
+    margin-top: 2em;
+    margin-bottom: 2em;
   }
 
   .fade-enter-active {
@@ -42,12 +35,10 @@
 </style>
 
 <script>
-  import Padding from '@tags/padding'
   import MastHead from '@components/mast-head'
 
   export default {
     components: {
-      Padding,
       MastHead
     }
   }

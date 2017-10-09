@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'mast-head'
-};
+}
 </script>
 
 <style>

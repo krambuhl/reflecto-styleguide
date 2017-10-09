@@ -2,16 +2,18 @@
 
 html,
 body {
-  font-family: sans-serif;
+  font-family: 'Source Sans', sans-serif;
 }
 
 body {
   line-height: 1.5em;
-}
+  font-size: 1.0em;
 
-[data-var] {
-  display: inline-block;
-  font-family: monospace;
-  border: 1px solid #eee;
-  background-color: #ddd;
+  @media (width > 640px) {
+    font-size: 1.1em;
+  }
+
+  @media (width > 960px) {
+    font-size: 1.2em;
+  }
 }

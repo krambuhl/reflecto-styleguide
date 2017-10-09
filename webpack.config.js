@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 
 module.exports = {
-  // devtool: 'eval-source-map',
+  devtool: 'inline-source-map',
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
@@ -36,16 +36,16 @@ module.exports = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          use: 'css-loader'
+          use: [
+            'css-loader',
+            'postcss-loader'
+          ]
         })
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
-        options: {
-          presets: ['env']
-        }
+        exclude: /node_modules/
       }
     ]
   },

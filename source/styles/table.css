@@ -1,0 +1,40 @@
+table {
+  table-layout: auto;
+  width: 100%;
+}
+
+th {
+  text-transform: uppercase;
+  font-size: 0.75em;
+  font-weight: bold;
+  min-width: 100px;
+  white-space: nowrap;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.25em 0.5em;
+
+  &:first-child { padding-left: 0; }
+  &:last-child {
+    padding-right: 0;
+    text-align: right;
+  }
+}
+
+tbody {
+  tr:first-child {
+    th, td {
+      padding-top: 0..5em;
+    }
+  }
+
+  th, td {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  tr + tr {
+    border-top: 1px solid #eee;
+  }
+}
