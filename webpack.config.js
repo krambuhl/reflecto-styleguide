@@ -43,6 +43,10 @@ module.exports = {
         })
       },
       {
+        test: /\.svg$/,
+        loader: 'vue-svg-loader'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/

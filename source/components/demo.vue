@@ -1,21 +1,40 @@
 <template>
-  <div class="demo" :class="{ 'is-fullwidth': this.isFullWidth }"  :style="{ maxWidth: this.width }">
+  <div class="demo">
     <ul class="demo__sizes">
-      <li><a @click="updateWidth(320)">Mobile / 400px</a></li>
-      <li><a @click="updateWidth(640)">Tablet / 768px</a></li>
-      <li><a @click="updateWidth(960)">Small Desktop / 960px</a></li>
-      <li><a @click="updateWidth('none')">Full Width</a></li>
+      <li><button @click="updateWidth(320)">Mobile / 400px</button></li>
+      <li><button @click="updateWidth(640)">Tablet / 768px</button></li>
+      <li><button @click="updateWidth(960)">Small Desktop / 960px</button></li>
+      <li><button @click="updateWidth(1280)">Medium Desktop / 1280px</button></li>
+      <li><button @click="updateWidth('none')">
+        <Icon name="expand" />
+      </button></li>
     </ul>
 
-    <iframe ref="iframe" class="demo__iframe" src="demo.html" :height="height"></iframe>
-    <resize-observer @notify="updateHeight" />
+    <div
+      class="demo__container"
+      :class="{ 'is-fullwidth': this.isFullWidth }"
+      :style="{ maxWidth: this.width }"
+    >
+      <iframe
+        ref="iframe"
+        class="demo__iframe"
+        src="demo.html"
+        :height="height"
+      ></iframe>
+
+      <resize-observer @notify="updateHeight" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Icon from '@tags/icon'
 export default {
   name: 'demo',
+  components: {
+    Icon
+  },
   data () {
     return {
       width: '960px',
@@ -39,6 +58,7 @@ export default {
     },
     updateWidth (size) {
       this.width = typeof size === 'number' ? `${size}px` : size
+      this.$nextTick(() => this.updateHeight())
     },
     updateHeight () {
       this.height = this.$refs.iframe.contentWindow.document.body.scrollHeight
@@ -71,12 +91,19 @@ export default {
 
 <style>
   .demo {
+    max-width: none;
+
+    & > * {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 960px;
+    }
+  }
+
+  .demo__container {
     position: relative;
-    padding-left: 0;
-    padding-right: 0;
 
     &.is-fullwidth {
-      max-width: none;
       margin-left: -2em;
       margin-right: -2em;
     }
@@ -92,9 +119,10 @@ export default {
   }
 
   .demo__iframe {
-    outline: #ddd solid 1px;
     margin: 2em auto;
-    width: 100%;
     max-width: 100%;
+    min-height: 200px;
+    outline: #ddd solid 1px;
+    width: 100%;
   }
 </style>

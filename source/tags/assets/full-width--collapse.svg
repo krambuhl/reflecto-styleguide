@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 152 56" style="enable-background:new 0 0 152 56;" xml:space="preserve">
+<g>
+	<rect width="12" height="56"/>
+	<rect x="140" width="12" height="56"/>
+	<polygon points="20,22 20,34 53.3,34 41,47 51,56 72,28 51,0 41,9 53.3,22" />
+	<polygon points="101,56 111,47 98.7,34 132,34 132,22 98.7,22 111,9 101,0 80,28" />
+</g>
+</svg>
