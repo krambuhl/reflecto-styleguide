@@ -66,6 +66,11 @@ module.exports = ({
   themeStylesContent = defaultThemeStylesContent,
   outputDirectory = 'styleguide'
 }) => {
+  scriptContent = readFilePromise(path.resolve(__dirname, 'dist/bundle.js'))
+  stylesContent = readFilePromise(path.resolve(__dirname, 'dist/bundle.css'))
+  themeStylesContent = readFilePromise(path.resolve(__dirname, 'dist/theme.css'))
+  demoScriptContent = readFilePromise(path.resolve(__dirname, 'dist/demo.js'))
+
   const demo = typeof demoContent === 'object'
     ? defaultTemplate(Object.assign({}, defaultDemoContent, demoContent))
     : demoContent
