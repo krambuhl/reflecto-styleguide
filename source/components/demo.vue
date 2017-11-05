@@ -1,23 +1,26 @@
 <template>
-  <div class="demo">
-    <ul class="demo__sizes">
-      <li><button @click="updateWidth(320)">Mobile / 400px</button></li>
-      <li><button @click="updateWidth(640)">Tablet / 768px</button></li>
-      <li><button @click="updateWidth(960)">Small Desktop / 960px</button></li>
-      <li><button @click="updateWidth(1280)">Medium Desktop / 1280px</button></li>
-      <li><button @click="updateWidth('none')">
-        <Icon name="expand" />
-      </button></li>
-    </ul>
+  <div
+    class="demo"
+    :class="{
+      'is-fullwidth': this.isFullWidth,
+      'is-wide': this.isWide
+    }"
+    :style="{ maxWidth: this.isWide ? this.width : '1280px' }"
+  >
+    <ActionList
+      label="max-width:"
+      class="sizes"
+      :items="sizes"
+      @click="updateWidth($event)"
+    />
 
     <div
-      class="demo__container"
-      :class="{ 'is-fullwidth': this.isFullWidth }"
+      class="container"
       :style="{ maxWidth: this.width }"
     >
       <iframe
         ref="iframe"
-        class="demo__iframe"
+        class="iframe"
         src="demo.html"
         :height="height"
       ></iframe>
@@ -30,15 +33,27 @@
 <script>
 import { mapState } from 'vuex'
 import Icon from '@tags/icon'
+import ActionList from '@components/action-list'
+
 export default {
   name: 'demo',
   components: {
-    Icon
+    Icon,
+    ActionList
   },
   data () {
     return {
-      width: '960px',
-      height: 100
+      renderDemo () {},
+      width: '1280px',
+      isWide: false,
+      height: 100,
+      sizes: [
+        { width: 320, text: '320px' },
+        { width: 640, text: '640px' },
+        { width: 960, text: '960px' },
+        { width: 1280, text: '1280px', isActive: true },
+        { width: 'none', text: 'Full Width' }
+      ]
     }
   },
   computed: {
@@ -56,12 +71,23 @@ export default {
       this.renderDemo = this.$refs.iframe.contentWindow.render
       this.updateDemo()
     },
-    updateWidth (size) {
-      this.width = typeof size === 'number' ? `${size}px` : size
+    updateWidth (ev) {
+      const { width } = ev.target
+
+      this.sizes = this.sizes.map((size, i) => {
+        return Object.assign({}, size, {
+          isActive: size.width === width
+        })
+      })
+
+      this.width = width === 'none' ? width : `${width}px`
+      this.isWide = width === 'none' || width >= 1281
       this.$nextTick(() => this.updateHeight())
     },
     updateHeight () {
-      this.height = this.$refs.iframe.contentWindow.document.body.scrollHeight
+      if (this.$refs.iframe.contentWindow) {
+        this.height = this.$refs.iframe.contentWindow.document.body.scrollHeight
+      }
     },
     updateDemo () {
       this.renderDemo({
@@ -89,19 +115,36 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .demo {
-    max-width: none;
+    border-radius: 5px;
+    background-color: var(--color-medium-dark);
+    max-width: 1280px;
 
     & > * {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 960px;
+      max-width: 1280px;
+    }
+
+    &.is-fullwidth {
+      margin-left: -2em;
+      margin-right: -2em;
+      border-radius: 0;
+    }
+
+    &.is-wide {
+      & .sizes {
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
   }
 
-  .demo__container {
+  .container {
     position: relative;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0.1em;
+    /* margin-left: auto;
+    margin-right: auto; */
 
     &.is-fullwidth {
       margin-left: -2em;
@@ -109,20 +152,9 @@ export default {
     }
   }
 
-  .demo__sizes {
-    font-size: 0.6em;
-    text-transform: uppercase;
-
-    & > li {
-      display: inline-block;
-    }
-  }
-
-  .demo__iframe {
-    margin: 2em auto;
-    max-width: 100%;
+  .iframe {
+    display: block;
     min-height: 200px;
-    outline: #ddd solid 1px;
     width: 100%;
   }
 </style>

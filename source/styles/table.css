@@ -5,7 +5,7 @@ table {
 
 th {
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: 0.75rem;
   font-weight: bold;
   min-width: 100px;
   white-space: nowrap;

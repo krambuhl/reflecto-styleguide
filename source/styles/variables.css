@@ -1,0 +1,24 @@
+:root {
+  --color-dark: #000;
+  --color-medium-dark: #444;
+  --color-medium: #999;
+  --color-medium-light: #ccc;
+  --color-light: #ddd;
+  --color-darkPurple: #080226;
+  --color-purple: #4925A0;
+  --color-lightPurple: #9f80ff;
+  --color-pink: #ff395f;
+  --color-green: #94ff2e;
+  --color-yellow: #ffec00;
+  --color-blue: #5bb6d6;
+}
+
+:root {
+  --padding: 1rem;
+}
+
+@media (width > 640px) {
+  :root {
+    --padding: 2rem;
+  }
+}

@@ -1,11 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import createLogger from 'vuex/dist/logger'
-
 Vue.use(Vuex)
 
-const { getExample, getExamples, getReadme } = global.__ElementArchive__
+const { getExample, getExamples, getReadme, getSchema } = global.__ElementArchive__
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
@@ -19,7 +17,7 @@ export default new Vuex.Store({
       state.query = {
         type: route.query.type,
         name: route.query.name,
-        id: route.query.id || '0'
+        id: route.query.id
       }
     },
     updateExample: () => (state, { id }) => {
@@ -34,16 +32,28 @@ export default new Vuex.Store({
       return getExamples(state.query.type, state.query.name)
     },
     exampleProps: (state, getters) => {
-      return getters.example.component.props
+      if (getters.example) {
+        return getters.example.component.props
+      }
+
+      return { }
     },
-    readme: state => {
+    rawReadme: state => {
       if (state.query.type && state.query.name) {
         return getReadme(state.query.type, state.query.name)
       } else {
         return 'Not Found'
       }
+    },
+    readme: (state, getters) => {
+      return getters.rawReadme
+        .replace(/{{(\w+\.\w+)}}/g, '<div data-var="$1"></div>')
+        .replace(/{{(\w+-\w+)}}/g, '<div data-var="$1"></div>')
+    },
+    rawSchema (state) {
+      return getSchema()
     }
   },
   strict: debug,
-  plugins: debug ? [createLogger()] : []
+  plugins: debug ? [store => console.log(store)] : []
 })

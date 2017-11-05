@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="page-wrapper">
-    <!-- <mast-head class="page-wrapper_mast"></mast-head> -->
+    <mast-head class="page-wrapper_mast"></mast-head>
     <div id="content" class="page-wrapper__content">
       <transition name="fade">
         <slot></slot>
@@ -12,11 +12,12 @@
 <style>
   .page-wrapper {
     min-height: 100vh;
+    min-width: 600px;
   }
 
   .page-wrapper__content {
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin-top: var(--padding);
+    margin-bottom: var(--padding);
   }
 
   .fade-enter-active {

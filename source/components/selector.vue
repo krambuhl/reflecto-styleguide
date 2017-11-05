@@ -1,15 +1,15 @@
 <template>
   <div class="selector">
-    <select type="text" class="selector__input" @change="onChange" v-model="selected">
+    <select type="text" class="input" v-model="id">
       <option
-        v-for="(example, key) in examples"
-        :key="key"
-        :value="key"
+        v-for="(example, key) in items"
+        :key="example.id"
+        :value="example.id"
       >
         {{example.title}}
       </option>
     </select>
-    <span class="selector__icon"></span>
+    <span class="icon"></span>
   </div>
 </template>
 
@@ -17,20 +17,34 @@
 import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'demo',
+  data () {
+    return {
+      id: this.$route.query.id
+    }
+  },
   computed: {
     ...mapState(['query']),
-    ...mapGetters(['example', 'examples'])
+    ...mapGetters(['examples']),
+    items () {
+      return Object.keys(this.examples).map((key, i) => {
+        const example = this.examples[key]
+        const id = key.substr(key.lastIndexOf('/') + 1)
+
+        return Object.assign({}, example, { id })
+      })
+    }
   },
-  created () {
-    this.selected =
-      Object.keys(this.examples)
-        .find((key) => key.indexOf(`/${this.query.id}`) >= 0)
+  watch: {
+    'query.id' () {
+      this.id = this.query.id
+    },
+    id () {
+      this.pushRoute({ })
+    }
   },
   methods: {
-    onChange (ev) {
-      this.selected = ev.target.value
-      this.id = this.selected.substr(this.selected.lastIndexOf('/') + 1)
-      this.$router.replace({
+    pushRoute ({ shouldReplace = false }) {
+      this.$router[shouldReplace ? 'replace' : 'push']({
         name: 'example',
         params: this.$route.params,
         query: Object.assign({ }, this.query, { id: this.id })
@@ -40,13 +54,13 @@ export default {
 }
 </script>
 
-<style>
+<style scopes>
   .selector {
     margin-bottom: 2em;
     position: relative;
   }
 
-  .selector__input {
+  .input {
     appearance: none;
     border: 1px solid #ddd;
     background-color: #fff;
@@ -54,12 +68,18 @@ export default {
     padding: 1em;
     width: 100%;
 
+    &:hover {
+      border-color: #999;
+    }
+
     &:focus {
-      border-color: purple;
+      outline: none;
+      box-shadow: 0 0 0px 1px var(--color-purple);
+      border-color: var(--color-purple);
     }
   }
 
-  .selector__icon {
+  .icon {
     display: inline-block;
     position: absolute;
     right: 1.75em;

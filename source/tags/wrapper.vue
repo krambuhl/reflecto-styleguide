@@ -18,7 +18,7 @@ export default {
 
 <style>
 .wrapper--small { max-width: 720px; }
-.wrapper--medium { max-width: 1080px; }
+.wrapper--medium { max-width: 960px; }
 .wrapper--large { max-width: 1280px; }
 .wrapper--full { max-width: 100%; }
 </style>
