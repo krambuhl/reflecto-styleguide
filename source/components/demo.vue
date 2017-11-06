@@ -24,9 +24,9 @@
         src="demo.html"
         :height="height"
       ></iframe>
-
-      <resize-observer @notify="updateHeight" />
     </div>
+
+    <resize-observer @notify="onWidthChange" />
   </div>
 </template>
 
@@ -34,6 +34,13 @@
 import { mapState } from 'vuex'
 import Icon from '@tags/icon'
 import ActionList from '@components/action-list'
+
+function getScreenWidth () {
+  if (document) {
+    return document.documentElement.clientWidth
+  }
+  return Infinity
+}
 
 export default {
   name: 'demo',
@@ -45,6 +52,7 @@ export default {
     return {
       renderDemo () {},
       width: '1280px',
+      currentWidth: getScreenWidth(),
       isWide: false,
       height: 100,
       sizes: [
@@ -69,6 +77,7 @@ export default {
   methods: {
     onLoad () {
       this.renderDemo = this.$refs.iframe.contentWindow.render
+      this.currentWidth = getScreenWidth()
       this.updateDemo()
     },
     updateWidth (ev) {
@@ -82,9 +91,17 @@ export default {
 
       this.width = width === 'none' ? width : `${width}px`
       this.isWide = width === 'none' || width >= 1281
-      this.$nextTick(() => this.updateHeight())
+      this.$nextTick(() => this.onWidthChange())
     },
-    updateHeight () {
+    onWidthChange () {
+      this.currentWidth = getScreenWidth()
+
+      this.sizes = this.sizes.map((size, i) => {
+        return Object.assign({}, size, {
+          isHidden: size.width === 'none' ? false : size.width > this.currentWidth
+        })
+      })
+
       if (this.$refs.iframe.contentWindow) {
         this.height = this.$refs.iframe.contentWindow.document.body.scrollHeight
       }
@@ -97,7 +114,7 @@ export default {
       })
 
       this.$nextTick(() => {
-        this.updateHeight()
+        this.onWidthChange()
       })
     }
   },
@@ -143,8 +160,6 @@ export default {
     position: relative;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 0.1em;
-    /* margin-left: auto;
-    margin-right: auto; */
 
     &.is-fullwidth {
       margin-left: -2em;

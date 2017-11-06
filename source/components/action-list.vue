@@ -3,7 +3,7 @@
     <li v-if="label">
       <span class="label">{{label}}</span>
     </li>
-    <li v-for="item in items">
+    <li v-for="item in items" v-if="!item.isHidden">
       <button
         class="option"
         :class="{ 'is-active': item.isActive }"
