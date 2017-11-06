@@ -1,6 +1,6 @@
 <template>
   <div class="selector">
-    <select type="text" class="input" v-model="id">
+    <select type="text" class="input" v-model="selectedId" @change="onSelectChange">
       <option
         v-for="(example, key) in items"
         :key="example.id"
@@ -19,12 +19,17 @@ export default {
   name: 'demo',
   data () {
     return {
-      id: this.$route.query.id
+      selectedId: this.exampleId
+    }
+  },
+  mounted () {
+    if (this.selectedId === undefined) {
+      this.selectedId = this.exampleId
     }
   },
   computed: {
     ...mapState(['query']),
-    ...mapGetters(['examples']),
+    ...mapGetters(['examples', 'exampleId']),
     items () {
       return Object.keys(this.examples).map((key, i) => {
         const example = this.examples[key]
@@ -35,19 +40,16 @@ export default {
     }
   },
   watch: {
-    'query.id' () {
-      this.id = this.query.id
-    },
-    id () {
-      this.pushRoute({ })
+    exampleId () {
+      this.selectedId = this.exampleId
     }
   },
   methods: {
-    pushRoute ({ shouldReplace = false }) {
-      this.$router[shouldReplace ? 'replace' : 'push']({
+    onSelectChange () {
+      this.$router.push({
         name: 'example',
         params: this.$route.params,
-        query: Object.assign({ }, this.query, { id: this.id })
+        query: Object.assign({ }, this.query, { id: this.selectedId })
       })
     }
   }
