@@ -17,7 +17,7 @@
   --padding: 1rem;
 }
 
-@media (width > 640px) {
+@media (width > 960px) {
   :root {
     --padding: 2rem;
   }

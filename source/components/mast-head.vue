@@ -165,8 +165,8 @@ export default {
 
   &.is-active {
     & .section__toggle {
-      background-color: var(--color-dark);
-      border-color: var(--color-dark);
+      background-color: var(--color-purple);
+      border-color: var(--color-purple);
       color: white;
     }
 
@@ -188,7 +188,8 @@ export default {
   cursor: pointer;
 
   &:hover {
-    border-color: var(--color-medium);
+    border-color: var(--color-purple);
+    color: var(--color-purple);
   }
 }
 

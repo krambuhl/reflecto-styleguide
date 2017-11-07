@@ -10,11 +10,7 @@ const router = new Router({
     path: '*',
     component: require('@components/example').default
   }],
-  linkActiveClass: 'is-active-route',
-  scrollBehavior (to, from, savedPosition) {
-    // if (savedPosition) return savedPosition
-    // else return { x: 0, y: 0 }
-  }
+  linkActiveClass: 'is-active-route'
 })
 
 router.afterEach(function (to, routeFrom) {
