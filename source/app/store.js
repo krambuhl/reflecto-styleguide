@@ -57,10 +57,11 @@ export default new Vuex.Store({
       const { type, name } = state.query
 
       if (type && name) {
-        return getModule(readmes, { type, name }).module
-      } else {
-        return 'Not Found'
+        const def = getModule(readmes, { type, name })
+        if (def) return def.module
       }
+
+      return 'Not Found'
     },
     readme (state, getters) {
       return getters.rawReadme
