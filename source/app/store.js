@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { getModule, getModules } from 'reflecto-archive'
 
 Vue.use(Vuex)
 
-const { getExample, getExamples, getReadme, getSchema } = global.__ElementArchive__
+const { examples, readmes, schema } = global.__ElementArchive__
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
@@ -22,38 +23,41 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    example (state, getters) {
-      return getExample(state.query.type, state.query.name, getters.exampleId)
+    example (state, { exampleId: id }) {
+      const { type, name } = state.query
+      const module = getModule(examples, { type, name, id })
+
+      if (module) {
+        return module.example
+      }
+
+      return null
     },
     examples (state) {
-      return getExamples(state.query.type, state.query.name)
+      const { type, name } = state.query
+      return getModules(examples, { type, name })
+        .reduce((all, def) => {
+          all.push(def.example)
+          return all
+        }, [])
     },
     exampleId (state, getters) {
-      if (state.query.id) {
-        return state.query.id
-      }
-
-      return getters.defaultExampleId
-    },
-    defaultExampleId (state, getters) {
-      const key = Object.keys(getters.examples)[0]
-
-      if (key) {
-        return key.substr(key.lastIndexOf('/') + 1)
-      }
-
-      return '0'
+      const { id } = state.query
+      return id || '0'
     },
     exampleProps (state, getters) {
       if (getters.example) {
-        return getters.example.component.props
+        return getters.example.props ||
+          getters.example.component.props
       }
 
       return { }
     },
     rawReadme (state) {
-      if (state.query.type && state.query.name) {
-        return getReadme(state.query.type, state.query.name)
+      const { type, name } = state.query
+
+      if (type && name) {
+        return getModule(readmes, { type, name }).module
       } else {
         return 'Not Found'
       }
@@ -64,7 +68,7 @@ export default new Vuex.Store({
         .replace(/{{(\w+-\w+)}}/g, '<div data-var="$1"></div>')
     },
     rawSchema (state) {
-      return getSchema()
+      return schema
     }
   },
   strict: debug,

@@ -53,8 +53,6 @@ import { mapGetters } from 'vuex'
 import Padding from '@tags/Padding'
 import Wrapper from '@tags/Wrapper'
 
-const { createDemoLink } = global.__ElementArchive__
-
 export default {
   name: 'mast-head',
   components: {
@@ -90,13 +88,6 @@ export default {
       if (count > 8) return 2
       return 1
     },
-    getFileLink (key) {
-      const [type, name] = key.split('/')
-      return createDemoLink(type, name, '0')
-    },
-    getName (key) {
-      return key.split('/')[1]
-    },
     toggle (index) {
       this.selectedIndex = this.selectedIndex === index ? -1 : index
     },
@@ -112,21 +103,21 @@ export default {
   computed: {
     ...mapGetters(['rawSchema']),
     schema () {
-      const getFileData = key => ({
-        href: this.getFileLink(key),
-        text: this.getName(key)
+      const getFileData = def => ({
+        href: `?type=${def.type}&name=${def.name}`,
+        text: def.name
       })
 
       return this.rawSchema.map(section => {
         if (section.files) {
-          section.files = Object.keys(section.files).map(getFileData)
+          section.files = section.files.map(getFileData)
         }
 
         if (section.groups) {
           section.groups = section.groups
             .map(group => {
               return Object.assign({}, group, {
-                files: Object.keys(group.files).map(getFileData)
+                files: group.files.map(getFileData)
               })
             })
             .filter(group => group)
