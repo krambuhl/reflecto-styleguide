@@ -61,7 +61,7 @@ export default new Vuex.Store({
         if (def) return def.module
       }
 
-      return 'Not Found'
+      return ''
     },
     readme (state, getters) {
       return getters.rawReadme

@@ -1,5 +1,7 @@
 <template>
-  <div class="example" v-html="readme">
+  <div class="example">
+    <div v-if="isFound" v-html="readme"></div>
+    <div v-else class="not-found">Not found</div>
   </div>
 </template>
 
@@ -13,7 +15,12 @@ import Selector from '@components/selector'
 
 export default {
   name: 'example',
-  computed: mapGetters(['readme']),
+  computed: {
+    ...mapGetters(['readme']),
+    isFound () {
+      return this.readme.length > 0
+    }
+  },
   mounted () {
     this.shared = {
       parent: this,
@@ -86,6 +93,13 @@ export default {
 </script>
 
 <style>
+.not-found {
+  text-align: center;
+  margin: 4em auto;
+  font-size: 1.35em;
+  font-weight: 700;
+}
+
 .example {
   padding-left: var(--padding);
   padding-right: var(--padding);
